@@ -1,5 +1,6 @@
 package graphs
 
+import scala.collection.mutable.Queue
 import scala.collection.mutable.Stack
 
 
@@ -22,24 +23,24 @@ class Graph[T](E: List[Edge[T]]) {
 
   /**
    * Depth-First Search non-recursive implementation.
-   * @param startNode Node to start searching from.
-   * @param targetNode Node to search for.
+   * @param start Node to start searching from.
+   * @param target Node to search for.
    * @return Boolean indicating whether node was found in graph
    */
-  def dfs(startNode: Vertex[T], targetNode: Vertex[T]): Boolean = {
+  def dfs(start: Vertex[T], target: Vertex[T]): Boolean = {
 
     val s: Stack[Vertex[T]] = new Stack()
 
     var nodesSeen: Set[Vertex[T]] = Set.empty
 
-    s.push(startNode)
+    s.push(start)
 
-    //pop stack and push neighbours until found
+    //pop stack, check if it is target, if yes return true, if no push neighbours and repeat until found or return false
     while (!s.isEmpty) {
 
       var top = s.top
 
-      if (top == targetNode) return true
+      if (top == target) return true
 
       s.pop()
 
@@ -48,7 +49,42 @@ class Graph[T](E: List[Edge[T]]) {
         neighbours(top).foreach(n => s.push(n))
         nodesSeen += top
       }
+    }
 
+    false
+  }
+
+  /**
+   * Breadth-First Search non-recursive implementation.
+   * @param start Node to start searching from.
+   * @param target Node to search for.
+   * @return Boolean indicating whether node was found in graph
+   */
+  def bfs(start:Vertex[T],target:Vertex[T]):Boolean={
+
+    val s: Queue[Vertex[T]] = new Queue()
+
+    var nodesSeen: Set[Vertex[T]] = Set.empty
+
+    s.enqueue(start)
+
+    nodesSeen+=start
+
+    //dequeue front of queue, check if target, if yes return true, if not enqueue unseen neighbours and repeat
+    while(!s.isEmpty){
+
+      var top=s.front
+
+      if(top==target) return true
+
+      s.dequeue()
+
+      neighbours(top)
+        .filter(n=> !nodesSeen.contains(n))
+        .foreach{ x=>
+          s.enqueue(x)        //add unvisited neighbours to queue
+          nodesSeen += x      //mark them as visited
+      }
     }
 
     false

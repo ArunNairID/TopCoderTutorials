@@ -72,6 +72,35 @@ class GraphSpec extends WordSpec with Matchers {
 
     }
 
+    "perform BFS correctly" in {
+
+      val A = Vertex("A")
+      val B = Vertex("B")
+      val C = Vertex("C")
+      val D = Vertex("D")
+      val E = Vertex("E")
+      val F = Vertex("F")
+      val G = Vertex("G")
+
+      val edges = List(
+        Edge(A, B),
+        Edge(A, C),
+        Edge(C, D),
+        Edge(D, E),
+        Edge(E, F),
+        Edge(F, G),
+        Edge(C, F),
+        Edge(D, G)
+      )
+
+      val g = new Graph(edges)
+
+      val newVert = Vertex("Z")
+
+      g.bfs(A, F) should equal(true)
+      g.bfs(A, newVert) should equal(false)
+    }
+
   }
 
 }
