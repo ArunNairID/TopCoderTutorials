@@ -17,15 +17,15 @@ class GraphSpec extends WordSpec with Matchers {
       val F = Vertex("F")
       val G = Vertex("G")
 
-      val edges = List(
-        Edge(A, B),
-        Edge(A, C),
-        Edge(C, D),
-        Edge(D, E),
-        Edge(E, F),
-        Edge(F, G),
-        Edge(C, F),
-        Edge(D, G)
+      val edges = Map(
+        (Edge(A, B) -> 0.0),
+        (Edge(A, C) -> 0.0),
+        (Edge(C, D) -> 0.0),
+        (Edge(D, E) -> 0.0),
+        (Edge(E, F) -> 0.0),
+        (Edge(F, G) -> 0.0),
+        (Edge(C, F) -> 0.0),
+        (Edge(D, G) -> 0.0)
       )
 
       val g = new Graph(edges)
@@ -52,15 +52,15 @@ class GraphSpec extends WordSpec with Matchers {
       val F = Vertex("F")
       val G = Vertex("G")
 
-      val edges = List(
-        Edge(A, B),
-        Edge(A, C),
-        Edge(C, D),
-        Edge(D, E),
-        Edge(E, F),
-        Edge(F, G),
-        Edge(C, F),
-        Edge(D, G)
+      val edges = Map(
+        (Edge(A, B) -> 0.0),
+        (Edge(A, C) -> 0.0),
+        (Edge(C, D) -> 0.0),
+        (Edge(D, E) -> 0.0),
+        (Edge(E, F) -> 0.0),
+        (Edge(F, G) -> 0.0),
+        (Edge(C, F) -> 0.0),
+        (Edge(D, G) -> 0.0)
       )
 
       val g = new Graph(edges)
@@ -82,15 +82,15 @@ class GraphSpec extends WordSpec with Matchers {
       val F = Vertex("F")
       val G = Vertex("G")
 
-      val edges = List(
-        Edge(A, B),
-        Edge(A, C),
-        Edge(C, D),
-        Edge(D, E),
-        Edge(E, F),
-        Edge(F, G),
-        Edge(C, F),
-        Edge(D, G)
+      val edges = Map(
+        (Edge(A, B) -> 0.0),
+        (Edge(A, C) -> 0.0),
+        (Edge(C, D) -> 0.0),
+        (Edge(D, E) -> 0.0),
+        (Edge(E, F) -> 0.0),
+        (Edge(F, G) -> 0.0),
+        (Edge(C, F) -> 0.0),
+        (Edge(D, G) -> 0.0)
       )
 
       val g = new Graph(edges)
@@ -99,6 +99,34 @@ class GraphSpec extends WordSpec with Matchers {
 
       g.bfs(A, F) should equal(true)
       g.bfs(A, newVert) should equal(false)
+    }
+
+
+    "perform shortest-path correctly" in {
+
+      val A = Vertex("A")
+      val B = Vertex("B")
+      val C = Vertex("C")
+      val D = Vertex("D")
+      val E = Vertex("E")
+      val F = Vertex("F")
+      val G = Vertex("G")
+
+      //Shortest path by steps is A->D, but shortest path by weight is A->C->D
+      val edges = Map(
+        (Edge(A, D) -> 3.0),
+        (Edge(A, C) -> 1.0),
+        (Edge(C, D) -> 1.0),
+        (Edge(D, E) -> 1.0),
+        (Edge(E, F) -> 1.0),
+        (Edge(F, G) -> 1.0),
+        (Edge(C, F) -> 1.0),
+        (Edge(D, G) -> 1.0)
+      )
+
+      val g = new Graph(edges)
+
+      g.shortestPath(A, D) should equal(2.0)
     }
 
   }
